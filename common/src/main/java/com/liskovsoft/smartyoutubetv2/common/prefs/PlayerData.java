@@ -711,28 +711,14 @@ public class PlayerData extends DataChangeBase implements PlayerConstants, Profi
     }
 
     public FormatItem getDefaultAudioFormat() {
-        // Android 4 (probably some others) doesn't support opus (ac3 will be reverted to opus)
-        // Note, 5.1 mp4a doesn't work in 5.1 mode
-        // Use opus (ac3 fallback) on modern devices. vp9 and opus should be supported at the same time?
-        return DeviceHelpers.isVP9ResolutionSupported(2160) ? FormatItem.AUDIO_51_AC3 : FormatItem.AUDIO_HQ_MP4A;
+        // JM APEX Tube (S905 boxes): stereo AAC always - safest on old hardware.
+        return FormatItem.AUDIO_HQ_MP4A;
     }
 
     public FormatItem getDefaultVideoFormat() {
-        FormatItem formatItem = mDefaultVideoFormats.get(Build.MODEL);
-
-        if (formatItem == null) {
-            if (VERSION.SDK_INT <= 19) { // Android 4 playback crash fix (memory leak?)
-                formatItem = FormatItem.VIDEO_SD_AVC_30;
-            } else if (VERSION.SDK_INT <= 23 && DeviceHelpers.isVP9ResolutionSupported(1080)) {
-                formatItem = FormatItem.VIDEO_FHD_VP9_60;
-            } else if (DeviceHelpers.isVP9ResolutionSupported(2160)) {
-                formatItem = FormatItem.VIDEO_4K_VP9_60;
-            } else if (DeviceHelpers.isVP9ResolutionSupported(1080)) {
-                formatItem = FormatItem.VIDEO_FHD_VP9_60;
-            }
-        }
-
-        return formatItem != null ? formatItem : FormatItem.VIDEO_HD_AVC_30;
+        // JM APEX Tube (S905 boxes): 720p AVC always. VP9/4K is what fails on
+        // these boxes with "This video format is not supported".
+        return FormatItem.VIDEO_HD_AVC_30;
     }
 
     public FormatItem getDefaultSubtitleFormat() {

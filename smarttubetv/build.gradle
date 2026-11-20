@@ -167,6 +167,10 @@ android {
             applicationId "org.smarttube.stable"
             targetSdkVersion project.properties.compileSdkVersion
         }
+        stapex {
+            applicationId "br.com.juniormartinsapex.tube"
+            targetSdkVersion project.properties.compileSdkVersion
+        }
         stfdroid {
             applicationId "app.smarttube.fdroid"
             minSdkVersion 21
