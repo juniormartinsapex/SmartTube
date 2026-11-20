@@ -35,6 +35,7 @@ android {
     productFlavors {
         stbeta {}
         ststable {}
+        stapex {}
         stfdroid {}
     }
 }
