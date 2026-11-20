@@ -71,3 +71,7 @@ tmp/
 fabric.properties
 *BAK.java
 hs_err_pid*.log
+
+# JM APEX Tube: local-only files, never commit
+keystore.properties
+muse-vm-ssh.pub

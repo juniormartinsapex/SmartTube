@@ -18,12 +18,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Patch Submodule Flavors (JM APEX Tube)
-        # :youtubeapi and :appupdatechecker2 are submodules checked out from
-        # upstream, so their stapex flavor cannot be committed — patch them
-        # here, right after checkout and before any Gradle step.
-        run: python3 .github/scripts/patch-submodule-flavors.py
-
       - name: Set up JDK 17
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
@@ -51,7 +45,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Lint with Gradle
-        run: ./gradlew lintStapexRelease
+        run: ./gradlew lintStstableRelease
 
       - name: Upload Lint Report
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -62,7 +56,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Build with Gradle
-        run: ./gradlew clean assembleStapexRelease
+        run: ./gradlew clean assembleStstableRelease
 
       - name: VirusTotal Scan
         if: ${{ env.HAS_VT_KEY == 'true' }}
@@ -71,7 +65,7 @@ jobs:
         with:
           vt_api_key: ${{ secrets.VIRUS_TOTAL_API_KEY }}
           files: |
-            ./smarttubetv/build/outputs/apk/stapex/release/*.apk
+            ./smarttubetv/build/outputs/apk/ststable/release/*.apk
           request_rate: 4
 
       - name: VirusTotal Summary
@@ -84,7 +78,7 @@ jobs:
           echo "| Artifact Name | VirusTotal Status | Detailed Report |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- | :--- |" >> $GITHUB_STEP_SUMMARY
 
-          for apk in ./smarttubetv/build/outputs/apk/stapex/release/*.apk; do
+          for apk in ./smarttubetv/build/outputs/apk/ststable/release/*.apk; do
             filename=$(basename "$apk")
             sha256=$(sha256sum "$apk" | awk '{print $1}')
 
@@ -99,26 +93,26 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: SmartTube_${{ steps.get_version.outputs.VERSION_NAME }}_arm64
-          path: ./smarttubetv/build/outputs/apk/stapex/release/*_arm64-v8a.apk
+          path: ./smarttubetv/build/outputs/apk/ststable/release/*_arm64-v8a.apk
           if-no-files-found: error
 
       - name: Upload ARMv7 APK
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: SmartTube_${{ steps.get_version.outputs.VERSION_NAME }}_armeabi-v7a
-          path: ./smarttubetv/build/outputs/apk/stapex/release/*_armeabi-v7a.apk
+          path: ./smarttubetv/build/outputs/apk/ststable/release/*_armeabi-v7a.apk
           if-no-files-found: error
 
       - name: Upload Universal APK
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: SmartTube_${{ steps.get_version.outputs.VERSION_NAME }}_universal
-          path: ./smarttubetv/build/outputs/apk/stapex/release/*_universal.apk
+          path: ./smarttubetv/build/outputs/apk/ststable/release/*_universal.apk
           if-no-files-found: error
 
       - name: Upload x86 APK
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: SmartTube_${{ steps.get_version.outputs.VERSION_NAME }}_x86
-          path: ./smarttubetv/build/outputs/apk/stapex/release/*_x86.apk
+          path: ./smarttubetv/build/outputs/apk/ststable/release/*_x86.apk
           if-no-files-found: error

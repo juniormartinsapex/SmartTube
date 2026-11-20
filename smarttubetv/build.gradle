@@ -164,10 +164,6 @@ android {
             targetSdkVersion project.properties.compileSdkVersion
         }
         ststable {
-            applicationId "org.smarttube.stable"
-            targetSdkVersion project.properties.compileSdkVersion
-        }
-        stapex {
             applicationId "br.com.juniormartinsapex.tube"
             targetSdkVersion project.properties.compileSdkVersion
         }
