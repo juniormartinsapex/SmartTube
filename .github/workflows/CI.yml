@@ -18,6 +18,12 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Patch Submodule Flavors (JM APEX Tube)
+        # :youtubeapi and :appupdatechecker2 are submodules checked out from
+        # upstream, so their stapex flavor cannot be committed — patch them
+        # here, right after checkout and before any Gradle step.
+        run: python3 .github/scripts/patch-submodule-flavors.py
+
       - name: Set up JDK 17
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:

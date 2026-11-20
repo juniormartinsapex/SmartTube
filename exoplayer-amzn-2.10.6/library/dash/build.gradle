@@ -40,8 +40,6 @@ android {
     // gradle 4.6 migration: disable dimensions mechanism
     // more: https://proandroiddev.com/advanced-android-flavors-part-4-a-new-version-fc2ad80c01bb
     flavorDimensions "default"
-    // JM APEX Tube: :youtubeapi and :appupdatechecker2 are submodules without a stapex flavor; use their ststable variant (flavors are empty, so variants are identical)
-    missingDimensionStrategy "default", "ststable"
 
     productFlavors {
         stbeta {}
